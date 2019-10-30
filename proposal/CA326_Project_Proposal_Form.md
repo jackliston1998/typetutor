@@ -23,7 +23,13 @@
 1. **Description** - Minimum  250 word description of the proposed project.
 1. **Division of Work** - Outlines how the work is envisaged to be split equally among the team members.
 1. **Programming language(s)** - List the proposed language(s) to be used
+    * Golang
 1. **Programming tool(s)** - List tools (compiler, database, web server, etc.) to be used
+    * Golang compiler
+    * 
 1. **Learning Challenges** - List the main new things (technologies, languages, tools, etc) that you will have to learn
+    * Image recognition
+    * Data visualisation
+    * New programming langaue
 1. **Hardware / software platform** - State the hardware and software platform for development, eg. PC, Linux, etc.
 1. **Special hardware / software requirements** - Describe any special requirements.

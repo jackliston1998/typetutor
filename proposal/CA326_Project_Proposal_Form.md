@@ -10,11 +10,9 @@
 <br>
 
 - **Student 2 Name**: *Jack Liston*
-    - ID Number: 
+    - ID Number: *17497764*
 <br>
 
-- **Student 3 Name**:    
-    - ID Number:
 
 *(A third team member is exceptional and requires detailed justification.)*
 

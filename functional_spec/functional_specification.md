@@ -120,7 +120,7 @@ In the first functionality, we merely integrated with OpenCV and gave it the abi
 **Criticality**
 It is critical highly critical to the finger positional recognition as it will map the area and position of each key and provide it with co-ordinates that will be saved and referred to as our user takes our touch typing tutorial.
 **Technical issues**
-Variations in lighting could lead to some issues with applying the co-ordinates to the 
+Variations in lighting could lead to some issues with applying the co-ordinates to the keyboard
 **Dependencies with other requirements**
 This functionality will depend on the first functionality mentioned as it must have the ability to "see" the keyboard by using OpenCV. 
 

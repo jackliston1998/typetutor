@@ -1,4 +1,5 @@
 # Uses OpenCV module and python2
+
 import cv2
 
 # Class used to control the camera
@@ -7,7 +8,7 @@ class Camera():
     # Initailize Camera with OpenCVs Capture object
     def __init__(self):
         # VideoCapture(0) for internal cam, VideoCapture(1) for external cam
-        self.capture = cv2.VideoCapture(0)
+        self.capture = cv2.VideoCapture(-1)
 
 
 

@@ -1,6 +1,5 @@
-import curses
-
-
+import operator, curses, random, sys
+from user import User
 # Class to represent a lesson
 class Lesson():
 
@@ -14,6 +13,18 @@ class Lesson():
         curses.init_pair(1, curses.COLOR_GREEN, curses.COLOR_BLACK) # Used for correct text
         curses.init_pair(2, curses.COLOR_RED, curses.COLOR_BLACK) # Used for incorrect text
 
+    # selects 10 radnom words and and passes tem to the writeWord function
+    # ends the typing enviornment 
+    def start(self, user):
+        for word in range(1):
+            self.writeWord(self.randInput(), user)
+        self.scrClose()
+
+    
+    # returns a random word from the words.txt file
+    def randInput(self):
+        return random.choice(open("words.txt").readlines()).strip()
+    
 
     # Function for writing to the application
     # Give a string, color and newline is optional
@@ -37,9 +48,10 @@ class Lesson():
     def scrClose(self):
         curses.endwin()
 
+    
 
     # Fuction for testing a user on a given word
-    def writeWord(self, word):
+    def writeWord(self, word, user):
         # Bool list used to track if user's characters are correct
         written = []
         
@@ -71,6 +83,7 @@ class Lesson():
                 
                 else:
                     self.scrPrint(key, 2) # 2 is set for Red, incorrect text
+                    user.setMistake(key)
                     written.append(True)
             
             # Accept next keystroke before restarting loop
@@ -80,13 +93,3 @@ class Lesson():
         self.scrPrint("\n\n")
 
 
-
-# For Testing
-if __name__ == "__main__":
-    les = Lesson()
-
-    words = ["hello", "world", "test"]
-    for word in words:
-        les.writeWord(word)
-    les.scrClose()
-        

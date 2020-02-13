@@ -16,7 +16,7 @@ class Lesson():
     # selects 10 radnom words and and passes tem to the writeWord function
     # ends the typing enviornment 
     def start(self, user):
-        for word in range(1):
+        for word in range(10):
             self.writeWord(self.randInput(), user)
         self.scrClose()
 
@@ -79,11 +79,13 @@ class Lesson():
                 # Check if typed character is correct (to the given string)
                 if (len(word) > len(written)) and word[len(written)] == key:
                     self.scrPrint(key, 1) # 1 is set for Green, correct text
+                    user.setScore()
                     written.append(True)
                 
                 else:
                     self.scrPrint(key, 2) # 2 is set for Red, incorrect text
                     user.setMistake(key)
+                    user.setMiss()
                     written.append(True)
             
             # Accept next keystroke before restarting loop

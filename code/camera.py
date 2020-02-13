@@ -1,9 +1,4 @@
-<<<<<<< HEAD
-# Uses OpenCV module and python2
-
-=======
 # OpenCV module required to run
->>>>>>> e27a56597ac7e0c7b0ec6a6cd70babf8058ec57c
 import cv2
 import sys # Only used for testing
 
@@ -11,11 +6,6 @@ import sys # Only used for testing
 class Camera():
 
     # Initailize Camera with OpenCVs Capture object
-<<<<<<< HEAD
-    def __init__(self):
-        # VideoCapture(0) for internal cam, VideoCapture(1) for external cam
-        self.capture = cv2.VideoCapture(-1)
-=======
     # The id is to decide which "video" node to use, e.g "video0, video1"
     # These nodes can be found in the path "/dev"
     # Use "ls -l /dev/video*" to search all video nodes
@@ -23,7 +13,6 @@ class Camera():
     def __init__(self, id):
         self.id = id
         self.capture = cv2.VideoCapture(id)
->>>>>>> e27a56597ac7e0c7b0ec6a6cd70babf8058ec57c
 
 
 

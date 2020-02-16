@@ -3,6 +3,10 @@ from user import User
 # Class to represent a lesson
 class Lesson():
 
+    # Class varible for all possible words that can be written
+    # Reassign to a set of words when words are read form file once
+    words = None
+
     # Initailize the curses application
     def __init__(self):
         self.scr = curses.initscr()
@@ -13,17 +17,26 @@ class Lesson():
         curses.init_pair(1, curses.COLOR_GREEN, curses.COLOR_BLACK) # Used for correct text
         curses.init_pair(2, curses.COLOR_RED, curses.COLOR_BLACK) # Used for incorrect text
 
-    # selects 10 radnom words and and passes tem to the writeWord function
+    # selects 10 random words and and passes them to the writeWord function
     # ends the typing enviornment 
     def start(self, user):
+
+        if self.words == None:
+            self.getWords()
+
         for word in range(10):
             self.writeWord(self.randInput(), user)
         self.scrClose()
 
+
+    # Get words from a list and place in a set
+    def getWords(self):
+        self.words = set([word.strip() for word in open("words.txt").readlines()])
     
+
     # returns a random word from the words.txt file
     def randInput(self):
-        return random.choice(open("words.txt").readlines()).strip()
+        return random.sample(self.words, 1)[0]
     
 
     # Function for writing to the application
@@ -48,7 +61,6 @@ class Lesson():
     def scrClose(self):
         curses.endwin()
 
-    
 
     # Fuction for testing a user on a given word
     def writeWord(self, word, user):
@@ -93,5 +105,3 @@ class Lesson():
         
         # Word finished, make separation between next word
         self.scrPrint("\n\n")
-
-

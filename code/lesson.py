@@ -1,5 +1,6 @@
-import operator, curses, random, sys
+import operator, curses, random, sys, os
 from user import User
+from camera import Camera
 # Class to represent a lesson
 class Lesson():
 
@@ -9,6 +10,7 @@ class Lesson():
 
     # Initailize the curses application
     def __init__(self):
+        self.cam = Camera(0)
         self.scr = curses.initscr()
         curses.noecho() # Stops automatic writing to the screen
 
@@ -27,7 +29,7 @@ class Lesson():
             self.getWords()
         
         # Select a number of words from the words set, no repeating wrods
-        words = random.sample(self.words, 30)
+        words = random.sample(self.words, 3)
 
         # Display message and first sets of words
         self.scrPrint("-- Type the words below. Begin by pressing \"Enter\" --", newline=True)
@@ -37,6 +39,14 @@ class Lesson():
         # Wait til user presses enters, ord("Enters") == 10
         while self.getKey() != 10:
             pass
+
+        if os.path.isdir("images"):
+            os.chdir("images")
+            for file in os.listdir():
+                os.remove(file)
+        else:
+            os.makedirs("images")
+            os.chdir("images")
 
         # Use i instead of interating over list to chage the words
         for i in range(len(words)):
@@ -130,6 +140,8 @@ class Lesson():
             
                 # Check if typed character is correct (to the given string)
                 if (len(word) > len(written)) and word[len(written)] == key:
+                    # Save an image to a file made up of the word and letter number
+                    self.cam.saveFrame(word + str(len(written) + 1) + ".jpg")
                     self.scrPrint(key, 1) # 1 is set for Green, correct text
                     user.setScore()
                     written.append(True)

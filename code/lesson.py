@@ -151,6 +151,7 @@ class Lesson():
                     
                     # Save an image to a file made up of the word and letter number
                     self.cam.saveFrame(frame, "{}{}.jpg".format(word, len(written) + 1))
+                    user.setCorrect(key, "{}{}.jpg".format(word, len(written) + 1))
                     self.scrPrint(key, 1) # 1 is set for Green, correct text
                     user.setScore()
                     written.append(True)

@@ -5,7 +5,16 @@ class User():
         self.score = 0
         self.miss = 0
         self.mistake = {}
+        self.correct = []
     
+    # stored tuples of the correct letter and its image name in a file to be used by OpenCV 
+    def setCorrect(self, letter, image_name):
+        self.correct.append((letter, image_name))
+    
+    #returns the list of tuples. The tuples have a the k pressed and the image at the moment it is pressed
+    def getCorrect(self):
+        return self.correct
+     
     # increments with each correct key value
     def setScore(self):
         self.score += 1
@@ -42,3 +51,4 @@ class User():
         print(self.getMiss(), "incorrect key presses")
         print("accuracy = ", accuracy*100,  "%")
         print(int(((self.getScore() / time)*60)/5), "words per minute")
+        print(self.correct)

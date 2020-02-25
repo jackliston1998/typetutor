@@ -6,10 +6,14 @@ import time
 user = User()
 # creates a new env
 les = Lesson()
+
+# starts the env
+les.start()
 # starts a timer
 start_time = time.time()
-# starts the env
-les.start(user)
+# Write words
+les.writeWords(user)
+
 # ends the timer
 end_time = time.time() - start_time
 # returns the user data

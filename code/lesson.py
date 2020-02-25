@@ -8,9 +8,9 @@ class Lesson():
     # Reassign to a set of words when words are read form file once
     words = None
 
-    # Initailize the curses application
-    def __init__(self):
-        self.cam = Camera(0)
+    # Initailize the curses application and setup Camera
+    def __init__(self, id=0):
+        self.cam = Camera(id)
         self.scr = curses.initscr()
         curses.noecho() # Stops automatic writing to the screen
 
@@ -22,24 +22,16 @@ class Lesson():
 
     # selects 30 random words and and passes them to the writeWord function
     # ends the typing enviornment 
-    def start(self, user):
-
-        # If words have not been read, then go read
+    def start(self):
+        # If words have not been read, then read them
         if self.words == None:
             self.getWords()
         
         # Select a number of words from the words set, no repeating wrods
-        words = random.sample(self.words, 3)
+        self.targetWords = random.sample(self.words, 3)
 
-        # Display message and first sets of words
-        self.scrPrint("-- Type the words below. Begin by pressing \"Enter\" --", newline=True)
-        self.displayWords(words[0:3], True)
-        self.displayWords(words[3:6], False)
-        
-        # Wait til user presses enters, ord("Enters") == 10
-        while self.getKey() != 10:
-            pass
-
+        # If images already exits, delete all contents (last lessons photos)
+        # Else, make images directory and ente
         if os.path.isdir("images"):
             os.chdir("images")
             for file in os.listdir():
@@ -48,7 +40,22 @@ class Lesson():
             os.makedirs("images")
             os.chdir("images")
 
-        # Use i instead of interating over list to chage the words
+        self.cam.showDisplay("Keyboard")
+
+        # Display message and first sets of words
+        self.scrPrint("-- Type the words below. Begin by pressing \"Enter\" --", newline=True)
+        self.displayWords(self.targetWords[0:3], True)
+        self.displayWords(self.targetWords[3:6], False)
+
+        # Wait til user presses enters, ord("Enters") == 10
+        while self.getKey() != 10:
+            pass
+
+        
+    def writeWords(self, user):
+        words = self.targetWords
+
+        # Use i instead of interating over list to change the words
         for i in range(len(words)):
 
             if i < len(words) and i % 3 == 0:
@@ -56,7 +63,6 @@ class Lesson():
 
                 if i + 2 < len(words):
                     self.displayWords(words[i+3 : i+6], False)
-
 
             written = self.writeWord(words[i], user)
             # "written" needed to know how far to go back
@@ -127,6 +133,8 @@ class Lesson():
         # While space is not pressed, ord(" ") == 32
         key = self.getKey()
         while key != 32:
+            ret, buffer = self.cam.captureFrame() # This is to clear the buffer
+            ret, frame = self.cam.captureFrame()  # This frame is potentially saved
 
             # Condition for backspace
             if key == 127 and len(written) > 0:
@@ -140,8 +148,9 @@ class Lesson():
             
                 # Check if typed character is correct (to the given string)
                 if (len(word) > len(written)) and word[len(written)] == key:
+                    
                     # Save an image to a file made up of the word and letter number
-                    self.cam.saveFrame(word + str(len(written) + 1) + ".jpg")
+                    self.cam.saveFrame(frame, "{}{}.jpg".format(word, len(written) + 1))
                     self.scrPrint(key, 1) # 1 is set for Green, correct text
                     user.setScore()
                     written.append(True)
@@ -150,7 +159,7 @@ class Lesson():
                     self.scrPrint(key, 2) # 2 is set for Red, incorrect text
                     user.setMistake(key)
                     user.setMiss()
-                    written.append(True)
+                    written.append(False)
             
             # Accept next keystroke before restarting loop
             key = self.getKey()

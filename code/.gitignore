@@ -1,4 +1,5 @@
 # ignore all .pyc
 *.pyc
+*.swp
 # image the images
 /code/images

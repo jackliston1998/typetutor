@@ -1,5 +1,6 @@
 # OpenCV module required to run
 import cv2
+from keypositions import setPositions
 import sys # Only used for testing
 
 # Class used to control the camera
@@ -27,11 +28,11 @@ class Camera():
     # Directory determined by os, change by using os module
     def saveFrame(self, frame, filename):
         # ret, frame = self.captureFrame()
-        cv2.imwrite(filename, frame)
-    
+        cv2.imwrite(filename, frame) 
 
     # Used to dispaly a frame to the screen
     def showFrame(self, frame, name="Camera"):
+        setPositions(frame)
         cv2.imshow(name, frame)
 
 

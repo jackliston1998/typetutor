@@ -32,7 +32,9 @@ def detectFingers(filename):
     """  
     
     # Temporary values here
-    circles = cv2.HoughCircles(copy, cv2.HOUGH_GRADIENT, dp=1, minDist=20, param1=15, param2=30, minRadius=0, maxRadius=40)
+    # minDist set to 20
+    # This has no blurring and high edge detection. Trying to get the detail from fingernails
+    circles = cv2.HoughCircles(copy, cv2.HOUGH_GRADIENT, dp=1, minDist=20, param1=80, param2=25, minRadius=0, maxRadius=40)
     circles = np.uint16(np.around(circles))
 
     for (x, y, r) in circles[0, :]:

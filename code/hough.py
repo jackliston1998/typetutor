@@ -51,11 +51,11 @@ def detectFingers(filename):
 
 
 if len(sys.argv) > 1:
-    num = sys.argv[1]
+    folder = sys.argv[1]
 else:
-    num = "1"
+    folder = "images"
 
-os.chdir("set{}".format(num))
+os.chdir(folder)
 i = 0
 files = os.listdir()
 total = len(files)

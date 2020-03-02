@@ -1,5 +1,7 @@
 # ignore all .pyc
+bashrc
 *.pyc
 *.swp
+*.jpg
 # image the images
 /code/images

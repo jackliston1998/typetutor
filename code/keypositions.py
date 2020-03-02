@@ -1,6 +1,7 @@
 import cv2
-def setPositions(img):
-    key_positions = {
+class Keyboard:
+    def __init__(self):
+        self.key_positions = {
         "q":(565,295),
         "w":(505,295),
         "e":(450,295),
@@ -28,6 +29,8 @@ def setPositions(img):
         "n":(246,236),
         "m":(198,236),
     }
-    for key in key_positions:
-        x,y = key_positions[key]
-        cv2.rectangle(img,(x-5,y-5),(x+5,y+5),(0,255,0),-1)
+
+    def setKeyPoints(self, img):
+        for key in self.key_positions:
+            x,y = self.key_positions[key]
+            cv2.rectangle(img,(x-5,y-5),(x+5,y+5),(0,255,0),-1)

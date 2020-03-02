@@ -1,6 +1,6 @@
 # OpenCV module required to run
 import cv2
-from keypositions import setPositions
+from keypositions import Keyboard
 import sys # Only used for testing
 
 # Class used to control the camera
@@ -15,7 +15,7 @@ class Camera():
         self.id = id
         self.capture = cv2.VideoCapture(id)
         self.capture.set(cv2.CAP_PROP_BUFFERSIZE, 1) # Change buffer size to one photo
-
+        self.keyb = Keyboard()
 
     # Captures current frame, returns a tuple of length 2
     # tuple[0] is a boolean on if capture was successful
@@ -32,7 +32,6 @@ class Camera():
 
     # Used to dispaly a frame to the screen
     def showFrame(self, frame, name="Camera"):
-        setPositions(frame)
         cv2.imshow(name, frame)
 
 
@@ -45,6 +44,7 @@ class Camera():
 
             # Capture a frame, then display with imshow
             ret, frame = self.captureFrame()
+            Keyboard.setKeyPoints(self.keyb, frame)
             self.showFrame(frame, name)
         
         # Remove the window when finsihed
@@ -64,6 +64,6 @@ if __name__ == "__main__":
         id = 0
     
     cam = Camera(id)
-    cam.showDisplay("Keybaord")
+    cam.showDisplay("Keyboard")
     cam.close()
 

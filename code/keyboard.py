@@ -30,6 +30,40 @@ class Keyboard:
         "m":(198,236),
     }
 
+        self.key_finger = {
+        "q":"l0",
+        "w":"l1",
+        "e":"l2",
+        "r":"l3",
+        "t":"l3",
+        "y":"r0",
+        "u":"r0",
+        "i":"r1",
+        "o":"r2",
+        "p":"r3",
+        "a":"l0",
+        "s":"l1",
+        "d":"l2",
+        "f":"l3",
+        "g":"l3",
+        "h":"r0",
+        "j":"r0",
+        "k":"r1",
+        "l":"r2",
+        "z":"l0",
+        "x":"l1",
+        "c":"l2",
+        "v":"l3",
+        "b":"l3",
+        "n":"r0",
+        "m":"r0",
+    }
+    def getKeyFinger(self, ltr):
+        return self.key_finger[ltr]
+
+
+    def getKeyPoint(self,ltr):
+        return self.key_positions[ltr]
     def setKeyPoints(self, img):
         for key in self.key_positions:
             x,y = self.key_positions[key]

@@ -1,4 +1,5 @@
 import operator, curses, random, sys, os
+from keyboard import Keyboard
 from user import User
 from camera import Camera
 # Class to represent a lesson
@@ -28,7 +29,7 @@ class Lesson():
             self.getWords()
         
         # Select a number of words from the words set, no repeating wrods
-        self.targetWords = random.sample(self.words, 3)
+        self.targetWords = random.sample(self.words, 1)
 
         # If images already exits, delete all contents (last lessons photos)
         # Else, make images directory and ente

@@ -1,4 +1,5 @@
 import operator, curses, random, sys
+from keyboard import Keyboard
 class User():
     #initalises a user to store the users data
     def __init__(self):
@@ -6,6 +7,7 @@ class User():
         self.miss = 0
         self.mistake = {}
         self.correct = []
+        self.keyb = Keyboard()
     
     # stored tuples of the correct letter and its image name in a file to be used by OpenCV 
     def setCorrect(self, letter, image_name):
@@ -51,4 +53,4 @@ class User():
         print(self.getMiss(), "incorrect key presses")
         print("accuracy = ", accuracy*100,  "%")
         print(int(((self.getScore() / time)*60)/5), "words per minute")
-        print(self.correct)
+        print(self.keyb.getCorrectFingers(self.correct))

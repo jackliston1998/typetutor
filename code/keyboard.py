@@ -1,4 +1,4 @@
-import cv2
+import cv2, math
 class Keyboard:
     def __init__(self):
         self.key_positions = {
@@ -68,3 +68,37 @@ class Keyboard:
         for key in self.key_positions:
             x,y = self.key_positions[key]
             cv2.rectangle(img,(x-5,y-5),(x+5,y+5),(0,255,0),-1)
+
+    def getCorrectFingers(self, lst_correct):
+# lst correct is a list of tuples with the correct finger and the name of the image
+        correct = 0
+        for image in lst_correct:
+            finger_choords = self.getFingerChoords(image[1])
+            if self.key_finger[image[0]][0] == "l":
+                if self.closest_point(image[0], finger_choords[0]):
+                    correct += 1
+            else:
+                if self.closest_point(image[0], finger_choords[1]):
+                    correct += 1
+        return (correct/len(lst_correct)) * 100
+
+         
+    def closest_point(self, key, choords):
+    # takes in an array of four co-ordinates and the co-ordinates of the key pressed
+    # returns the index in the array which is closest to the point
+        keypos = self.key_positions[key]
+        i = 0
+        min_dis = ""
+        print(choords)
+        for c in choords:
+            dist = (i, math.hypot(int(c[0]) - keypos[0], int(c[1]) - keypos[1]))
+            if min_dis == "":
+                min_dis = (i, math.hypot(int(c[0]) - keypos[0], int(c[1]) - keypos[1]))
+            elif min_dis[1] > dist[1]:
+                min_dis = dist
+            i += 1
+        return str(min_dis[0]) == self.key_finger[key][-1]
+
+
+    def getFingerChoords(self,x):
+        return [[(558, 194, 26), (468, 232, 24), (466, 232, 23), (388, 200, 16)],[(578, 172, 23), (508, 178, 29), (410, 190, 22), (326, 202, 17)]]

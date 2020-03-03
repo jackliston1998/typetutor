@@ -38,28 +38,27 @@ def identifyFingers(filename):
             midX, avgY = getHueristicValues(rightX, rightY)
             right.append(min([cir for cir in loose if cir not in right], key=lambda cir: heuristic(cir, (midX, avgY))))
 
+    return (left, right)
 
-    # print(sorted(left, reverse=True))
-    for (x, y, r) in loose:
-        cv2.circle(img, (x, y), r, (0, 0, 255), 2)
-        cv2.circle(img, (x, y), 2, (0, 0, 255), 1)
+    # For testing purposes
+    # for (x, y, r) in loose:
+    #     cv2.circle(img, (x, y), r, (0, 0, 255), 2)
+    #     cv2.circle(img, (x, y), 2, (0, 0, 255), 1)
     
-    for (x, y, r) in left:
-        cv2.circle(img, (x, y), r, (255, 0, 0), 3)
-        cv2.circle(img, (x, y), 2, (255, 0, 0), 2)
+    # for (x, y, r) in left:
+    #     cv2.circle(img, (x, y), r, (255, 0, 0), 3)
+    #     cv2.circle(img, (x, y), 2, (255, 0, 0), 2)
     
-    for (x, y, r) in right:
-        cv2.circle(img, (x, y), r, (255, 0, 0), 3)
-        cv2.circle(img, (x, y), 2, (255, 0, 0), 2)
+    # for (x, y, r) in right:
+    #     cv2.circle(img, (x, y), r, (255, 0, 0), 3)
+    #     cv2.circle(img, (x, y), 2, (255, 0, 0), 2)
     
-    for (x, y, r) in confident:
-        cv2.circle(img, (x, y), r, (0, 255, 0), 3)
-        cv2.circle(img, (x, y), 2, (0, 255, 0), 2)
-    
+    # for (x, y, r) in confident:
+    #     cv2.circle(img, (x, y), r, (0, 255, 0), 3)
+    #     cv2.circle(img, (x, y), 2, (0, 255, 0), 2)
 
-    # cv2.circle(img, (320, 240), 2, (255, 255, 0), 2) # center of img
-    key = show(img, "{} of {}: {}".format(i, total, filename))
-    return key
+    # key = show(img, "{} of {}: {}".format(i, total, filename))
+    # return key
 
 
 def detectCircles(img, edgeThres=180, circleThres=20):
@@ -88,7 +87,7 @@ def detectCircles(img, edgeThres=180, circleThres=20):
 
 def getHueristicValues(handX, handY):
     handX = sorted(handX, reverse=True)
-    spaces = getSpaces(handX)
+    spaces = [handX[i] - handX[i + 1] for i in range(len(handX) - 1)]
     biggest = max(spaces)
     pos = spaces.index(biggest)
     middleX = handX[pos] - biggest / 2
@@ -100,9 +99,6 @@ def getHueristicValues(handX, handY):
 
     return middleX, avgY
 
-
-def getSpaces(lis):
-    return [lis[i] - lis[i + 1] for i in range(len(lis) - 1)]
 
 # Function to determine the heuristic of a circle for a given point
 def heuristic(circle, point):
@@ -126,7 +122,6 @@ if __name__ == "__main__":
     total = len(files)
     for file in files:
         key = identifyFingers(file)
-        # key = lines(file)
         
         if key == 113:
             break

@@ -64,8 +64,8 @@ def identifyFingers(filename):
 def detectCircles(img, edgeThres=180, circleThres=20):
     # Used to see result of Canny algorithm
     # hough.Circle uses a given number as the higher threshold, and divides by 2 for the lower
-    # canny = cv2.Canny(img, edgeThres/2, edgeThres)
-    # show(canny, "edge")
+    canny = cv2.Canny(img, edgeThres/2, edgeThres)
+    show(canny, "edge")
     
     """
     cv.Hough Circles

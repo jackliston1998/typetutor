@@ -61,23 +61,34 @@ class Keyboard:
     }
     def getKeyFinger(self, ltr):
     # This function is used to query the dictionary that stores which finger should be pressing which finger
-    
+    # It takes in the target letter as a string
+    # It ouput a string with the hand used and the index of the finger on that hand that should be used 
         return self.key_finger[ltr]
 
     def getKeyPoint(self,ltr):
+    # This function is used to query the dictionary that stores the co-ordinates of each key.
+    # It takes in a target letter as a string
+    # It outputs a tuples with two ints, the x and y co-ordinates 
         return self.key_positions[ltr]
 
     def setKeyPoints(self, img):
+    # This function is used to draw the four points on the initial start up frame so the user can align their keyboard
+    # This takes in a numpy array that is mapped to the frame that is shown to the user
+    # It will print four points onto the frame, used to align the four corners of the alpha keys on the keyboard
         corners = ["q", "p", "z", "m"]
         for key in corners:
             x,y = self.key_positions[key]
             cv2.rectangle(img,(x-5,y-5),(x+5,y+5),(0,255,0),-1)
 
     def getCorrectFingers(self, lst_correct):
-# lst correct is a list of tuples with the correct finger and the name of the image
+    # This function calculates what percentage of key presses used the correct finger
+    # It takes an array of tuples (key pressed, image name) 
+    # It ouputs the percent of amount of correct finger uses
         correct = 0
         for image in lst_correct:
+            # This calls our hough transfer function which takes an image name and returns a tuple of two arrays containing the four co-ordinates each
             finger_choords = hough.identifyFingers(image[1])
+            # This checks the first index frm the associated value from key_finger dic and checks which hand was used. Then it chooses the appropriate array in the tuple.
             if self.key_finger[image[0]][0] == "l":
                 if self.closest_point(image[0], finger_choords[0]):
                     correct += 1
@@ -88,11 +99,13 @@ class Keyboard:
 
          
     def closest_point(self, key, choords):
+    # This function calculates which finger was used to hit the key by checking which index(i.e finger) was closest to the key that was just pressed
     # takes in an array of four co-ordinates and the co-ordinates of the key pressed
-    # returns the index in the array which is closest to the point
+    # returns a bool on whether the closest finger is equal to the expected finger according to touch typing method.
         keypos = self.key_positions[key]
         i = 0
         min_dis = ""
+        # Loops through each finger and gets the distance to the target key. It stores the shortest distance in min_dis.
         for c in choords:
             dist = (i, math.hypot(int(c[0]) - keypos[0], int(c[1]) - keypos[1]))
             if min_dis == "":

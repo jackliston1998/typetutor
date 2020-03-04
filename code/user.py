@@ -1,36 +1,47 @@
 import operator, curses, random, sys
 from keyboard import Keyboard
 class User():
-    #initalises a user to store the users data
     def __init__(self):
+    #initalises a user to store the users data
         self.score = 0
         self.miss = 0
         self.mistake = {}
         self.correct = []
         self.keyb = Keyboard()
     
-    # stored tuples of the correct letter and its image name in a file to be used by OpenCV 
     def setCorrect(self, letter, image_name):
+    # Used to store a record of all correct key presses and their associated filenames
+    # Takes in a User object, the letter pressed as a String and the name of the image as a String
+    # Stores them as a tuple in the correct array which will be iterated over with our hough script to ensure correct finger used
         self.correct.append((letter, image_name))
     
     #returns the list of tuples. The tuples have a the k pressed and the image at the moment it is pressed
     def getCorrect(self):
+    # This fucntion is used to get the users correct answers
+    # Takes in the User object
+    # Outputs an array of tuples containing the key pressed and the name of the file that contains a screenshot the moment that key was pressed
         return self.correct
      
-    # increments with each correct key value
     def setScore(self):
+    # Increments with each correct key value
+    # Takes the User object    
+    # Increments the User's score
         self.score += 1
     
-    # returns the users correct key presses
     def getScore(self):
+    # Returns the int that has been storing the amount of correct key presses made by the user
+    # Takes in the User object
+    # Returns the amount of correct keys pressed
         return self.score
     
-    # increments with each incorrect key value
     def setMiss(self):
+    # Increments with each incorrect key value
+    # Takes the User object    
+    # Increments the User's mistakes
         self.miss += 1 
     
-    # returns the users incorrect keystrokes
     def getMiss(self):
+    # Returns
         return self.miss
     
     # adds the key that has been input incorrectly to a dictionary

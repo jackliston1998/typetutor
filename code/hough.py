@@ -57,7 +57,10 @@ def detectCircles(img, edgeThres=180, circleThres=20):
     # This should be the "conservative" search
     # minDist = 25, param1 = 180, param = 20
     circles = cv2.HoughCircles(img, cv2.HOUGH_GRADIENT, dp=1, minDist=25, param1=edgeThres, param2=circleThres, minRadius=0, maxRadius=40)
-    if circles != None:
+    
+    # HoughCircles will return an array (numpy.nparray) of found circles or "None" if no circles found
+    # "circles != None" cannot be done as np.nparray had no truth values associated
+    if type(circles) != type(None):
         np.uint16(np.around(circles)) # Round co-ords and radiuii to round numbers
         return [(x, y, z) for (x, y, z) in circles[0] if 150 <= y <= 260]
     

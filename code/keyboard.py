@@ -65,6 +65,7 @@ class Keyboard:
 
     def getKeyPoint(self,ltr):
         return self.key_positions[ltr]
+
     def setKeyPoints(self, img):
         for key in self.key_positions:
             x,y = self.key_positions[key]
@@ -90,7 +91,6 @@ class Keyboard:
         keypos = self.key_positions[key]
         i = 0
         min_dis = ""
-        print(choords)
         for c in choords:
             dist = (i, math.hypot(int(c[0]) - keypos[0], int(c[1]) - keypos[1]))
             if min_dis == "":

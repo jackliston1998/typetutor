@@ -53,4 +53,4 @@ class User():
         print(self.getMiss(), "incorrect key presses")
         print("accuracy = ", accuracy*100,  "%")
         print(int(((self.getScore() / time)*60)/5), "words per minute")
-        print(self.keyb.getCorrectFingers(self.correct))
+        print("Finger accuracy: {}".format(self.keyb.getCorrectFingers(self.correct)))

@@ -1,6 +1,7 @@
 # OpenCV module required to run
 import cv2
 import sys # Only used for testing
+from keyboard import Keyboard
 
 # Class used to control the camera
 class Camera():
@@ -36,12 +37,14 @@ class Camera():
     # Shows a live capture, name is for the title of the window
     # Stop by pressing "q", this condition will change (when keyboard is detected)
     def showDisplay(self, name="Camera"):
+        keyb = Keyboard()
         # cv2.waitKey accepts a key press for a period of given time (in ms)
         # The key press is converted to ord, ord("q") == 113
         while cv2.waitKey(1) != 113:
 
             # Capture a frame, then display with imshow
             ret, frame = self.captureFrame()
+            keyb.setKeyPoints(frame)
             self.showFrame(frame, name)
         
         # Remove the window when finsihed
@@ -59,7 +62,6 @@ if __name__ == "__main__":
         id = int(sys.argv[1])
     else:
         id = 0
-    
     cam = Camera(id)
     cam.showDisplay("Keyboard")
     cam.close()

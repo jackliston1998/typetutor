@@ -38,27 +38,27 @@ def identifyFingers(filename):
             midX, avgY = getHueristicValues(rightX, rightY)
             right.append(min([cir for cir in loose if cir not in right], key=lambda cir: heuristic(cir, (midX, avgY))))
 
-    return (left, right)
+    return sorted(left, reverse=True), sorted(right, reverse=True)
 
     # For testing purposes
-    # for (x, y, r) in loose:
-    #     cv2.circle(img, (x, y), r, (0, 0, 255), 2)
-    #     cv2.circle(img, (x, y), 2, (0, 0, 255), 1)
-    
-    # for (x, y, r) in left:
-    #     cv2.circle(img, (x, y), r, (255, 0, 0), 3)
-    #     cv2.circle(img, (x, y), 2, (255, 0, 0), 2)
-    
-    # for (x, y, r) in right:
-    #     cv2.circle(img, (x, y), r, (255, 0, 0), 3)
-    #     cv2.circle(img, (x, y), 2, (255, 0, 0), 2)
-    
-    # for (x, y, r) in confident:
-    #     cv2.circle(img, (x, y), r, (0, 255, 0), 3)
-    #     cv2.circle(img, (x, y), 2, (0, 255, 0), 2)
+    for (x, y, r) in loose:
+        cv2.circle(img, (x, y), r, (0, 0, 255), 2)
+        cv2.circle(img, (x, y), 2, (0, 0, 255), 1)
 
-    # key = show(img, "{} of {}: {}".format(i, total, filename))
-    # return key
+    for (x, y, r) in left:
+        cv2.circle(img, (x, y), r, (255, 0, 0), 3)
+        cv2.circle(img, (x, y), 2, (255, 0, 0), 2)
+    
+    for (x, y, r) in right:
+        cv2.circle(img, (x, y), r, (255, 0, 0), 3)
+        cv2.circle(img, (x, y), 2, (255, 0, 0), 2)
+    
+    for (x, y, r) in confident:
+        cv2.circle(img, (x, y), r, (0, 255, 0), 3)
+        cv2.circle(img, (x, y), 2, (0, 255, 0), 2)
+
+    key = show(img, "{} of {}: {}".format(i, total, filename))
+    return key
 
 
 def detectCircles(img, edgeThres=180, circleThres=20):

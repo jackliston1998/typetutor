@@ -29,7 +29,7 @@ class Lesson():
             self.getWords()
         
         # Select a number of words from the words set, no repeating wrods
-        self.targetWords = random.sample(self.words, 1)
+        self.targetWords = random.sample(self.words, 3)
 
         # If images already exits, delete all contents (last lessons photos)
         # Else, make images directory and ente

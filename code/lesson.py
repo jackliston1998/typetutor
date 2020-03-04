@@ -13,36 +13,35 @@ class Lesson():
     def __init__(self, screen, id=0):
         self.cam = Camera(id)
         self.scr = screen
+        self.cam.showDisplay("Keyboard")
+        # If words have not been read, then read them
+        if self.words == None:
+            self.getWords()
+        # If images already exits, delete all contents (last lessons photos)
+        # Else, make images directory and ente
+        if not os.path.isdir("images"):
+            os.makedirs("images")
+       
+        os.chdir("images")
     
     # selects 30 random words and and passes them to the writeWord function
     # ends the typing enviornment 
     def start(self):
-        # If words have not been read, then read them
-        if self.words == None:
-            self.getWords()
+        for file in os.listdir():
+            os.remove(file)
         
         # Select a number of words from the words set, no repeating wrods
         self.targetWords = random.sample(self.words, 3)
 
-        # If images already exits, delete all contents (last lessons photos)
-        # Else, make images directory and ente
-        if os.path.isdir("images"):
-            os.chdir("images")
-            for file in os.listdir():
-                os.remove(file)
-        else:
-            os.makedirs("images")
-            os.chdir("images")
 
-        self.cam.showDisplay("Keyboard")
 
         # Display message and first sets of words
         self.scr.scrPrint("-- Type the words below. Begin by pressing \"Enter\" --", newline=True)
         self.displayWords(self.targetWords[0:3], True)
         self.displayWords(self.targetWords[3:6], False)
 
-        # Wait til user presses enters, ord("Enters") == 10
-        while self.scr.getKey() != 10:
+        # Wait til user presses enters, ord("Enters") == 32
+        while self.scr.getKey() != 32:
             pass
 
         
@@ -63,7 +62,6 @@ class Lesson():
             self.scr.clearLine(written)
 
         # Close self.scr.when finished
-        self.scrClose()
 
 
     # Get words from a list and place in a set (after striping)

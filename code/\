@@ -7,9 +7,7 @@ import time, curses
 screen = Screen()
 # creates a new env
 les = Lesson(screen, 2)
-screen.showOption()
 while screen.getKey() != 113:
-    screen.clear()
     # starts the env
     les.start()
     # creates a user a/c to store the mistakes
@@ -27,5 +25,5 @@ while screen.getKey() != 113:
     [screen.scrPrint(n, newline=True) for n in user.getData(end_time)]
     screen.getKey()
     screen.clear()
-    screen.showOption()
+    screen.scrPrint("Keep calm and fuck bitches")
 curses.endwin()

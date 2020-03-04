@@ -46,13 +46,23 @@ class User():
         wrong = []
         if len(sorted_x) < 3:
             for item in sorted_x:
-                wrong.append((item[0], "wrong", item[1], "time(s)"))
+                wrong.append("{} wrong {} time(s)".format(item[0], item[1]))
         else:
             for i in range(3):
-                wrong.append((sorted_x[i][0], "wrong", sorted_x[i][1], "time(s)"))
+                wrong.append("{} wrong {} time(s)".format(sorted_x[i][0], sorted_x[i][1]))
         return wrong
 
     # gets the data stored by the users and returns it to user
     def getData(self, time):
-        accuracy = self.getScore()/(self.getMiss() + self.getScore())
-        return [(self.getScore(), "correct key presses") , (self.getMiss(), "incorrect key presses"), ("accuracy = ", accuracy*100,  "%"), (int(((self.getScore() / time)*60)/5), "words per minute"), ("Finger accuracy:", self.keyb.getCorrectFingers(self.correct))]
+        correct_no = "{} correct key presses".format(self.getScore())
+        incorrect_no =  "{} incorrect key presses".format(self.getMiss())
+        wpm = "{} words per minute".format(int(((self.getScore() / time)*60)/5))
+        accuracy = "accuracy = {}".format(self.getScore()/(self.getMiss() + self.getScore())*100)
+        finger_accuracy = "Finger accuracy: {}".format(self.keyb.getCorrectFingers(self.correct))
+        return [correct_no, incorrect_no, wpm, accuracy, finger_accuracy, "Press 'r' to restart the game"]
+
+
+
+
+
+

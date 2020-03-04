@@ -45,3 +45,10 @@ class Screen():
 
     def move(self, x, y):
         self.scr.move(y, x)
+    
+    def clear(self):
+        self.scr.clear()
+
+    def showOption(self):
+        prompt = "Press 'q' to quit the game,\npress 'd' to play demo,\npress 'p' to play the game"
+        self.scrPrint(prompt)

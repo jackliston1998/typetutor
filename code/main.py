@@ -1,12 +1,18 @@
 from user import User
 from lesson import Lesson
 from screen import Screen
-import time, curses
+import time, curses, sys
+
+
+if len(sys.argv) > 1:
+    camId = sys.argv[1]
+else:
+    camId = 0
 
 # creates a new screen object
 screen = Screen()
 # creates a new env
-les = Lesson(screen, 2)
+les = Lesson(screen, camId)
 screen.showOption()
 while screen.getKey() != 113:
     screen.clear()

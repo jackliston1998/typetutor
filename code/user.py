@@ -43,14 +43,16 @@ class User():
     # prints each value that was incorrect typed aswell as how many times it was incorrectly given
     def getMistake(self):
         sorted_x = sorted(self.mistake.items(), key=operator.itemgetter(1))
-        for item in sorted_x:
-            print(item[0], "wrong", item[1], "time(s)")
-    
+        wrong = []
+        if len(sorted_x) < 3:
+            for item in sorted_x:
+                wrong.append((item[0], "wrong", item[1], "time(s)"))
+        else:
+            for i in range(3):
+                wrong.append((sorted_x[i][0], "wrong", sorted_x[i][1], "time(s)"))
+        return wrong
+
     # gets the data stored by the users and returns it to user
     def getData(self, time):
         accuracy = self.getScore()/(self.getMiss() + self.getScore())
-        print(self.getScore(), "correct key presses") 
-        print(self.getMiss(), "incorrect key presses")
-        print("accuracy = ", accuracy*100,  "%")
-        print(int(((self.getScore() / time)*60)/5), "words per minute")
-        print("Finger accuracy: {}".format(self.keyb.getCorrectFingers(self.correct)))
+        return [(self.getScore(), "correct key presses") , (self.getMiss(), "incorrect key presses"), ("accuracy = ", accuracy*100,  "%"), (int(((self.getScore() / time)*60)/5), "words per minute"), ("Finger accuracy:", self.keyb.getCorrectFingers(self.correct))]

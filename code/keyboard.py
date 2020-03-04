@@ -60,14 +60,16 @@ class Keyboard:
         "m":"r0",
     }
     def getKeyFinger(self, ltr):
+    # This function is used to query the dictionary that stores which finger should be pressing which finger
+    
         return self.key_finger[ltr]
-
 
     def getKeyPoint(self,ltr):
         return self.key_positions[ltr]
 
     def setKeyPoints(self, img):
-        for key in self.key_positions:
+        corners = ["q", "p", "z", "m"]
+        for key in corners:
             x,y = self.key_positions[key]
             cv2.rectangle(img,(x-5,y-5),(x+5,y+5),(0,255,0),-1)
 

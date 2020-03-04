@@ -10,17 +10,10 @@ class Lesson():
     words = None
 
     # Initailize the curses application and setup Camera
-    def __init__(self, id=0):
+    def __init__(self, screen, id=0):
         self.cam = Camera(id)
-        self.scr = curses.initscr()
-        curses.noecho() # Stops automatic writing to the screen
-
-        # Needed for multi-coloring
-        curses.start_color()
-        curses.init_pair(1, curses.COLOR_GREEN, curses.COLOR_BLACK) # Used for correct text
-        curses.init_pair(2, curses.COLOR_RED, curses.COLOR_BLACK) # Used for incorrect text
-        curses.init_pair(3, curses.COLOR_BLUE, curses.COLOR_BLACK) # Used for upcoming words
-
+        self.scr = screen
+    
     # selects 30 random words and and passes them to the writeWord function
     # ends the typing enviornment 
     def start(self):
@@ -44,12 +37,12 @@ class Lesson():
         self.cam.showDisplay("Keyboard")
 
         # Display message and first sets of words
-        self.scrPrint("-- Type the words below. Begin by pressing \"Enter\" --", newline=True)
+        self.scr.scrPrint("-- Type the words below. Begin by pressing \"Enter\" --", newline=True)
         self.displayWords(self.targetWords[0:3], True)
         self.displayWords(self.targetWords[3:6], False)
 
         # Wait til user presses enters, ord("Enters") == 10
-        while self.getKey() != 10:
+        while self.scr.getKey() != 10:
             pass
 
         
@@ -67,9 +60,9 @@ class Lesson():
 
             written = self.writeWord(words[i], user)
             # "written" needed to know how far to go back
-            self.clearLine(written)
+            self.scr.clearLine(written)
 
-        # Close screen when finished
+        # Close self.scr.when finished
         self.scrClose()
 
 
@@ -83,46 +76,14 @@ class Lesson():
     def displayWords(self, words, first):
 
         if first:
-            self.scr.move(1, 0)
-            self.scrPrint(" ".join(words), newline=True)
+            self.scr.move(0, 1)
+            self.scr.scrPrint(" ".join(words), newline=True)
         
         else:
-            self.scr.move(2, 0)
-            self.scrPrint(" ".join(words), 3, newline=True) # 3 is to write in blue
+            self.scr.move(0, 2)
+            self.scr.scrPrint(" ".join(words), 3, newline=True) # 3 is to write in blue
 
 
-    # Function for backspace
-    def backspace(self):
-        pos = curses.getsyx() # Get current cursor
-        self.scr.addstr(pos[0], pos[1] - 1, " ") # Write over last character
-        self.scr.move(pos[0], pos[1] - 1) # Move cursor back one
-
-
-    # Fucntion for clearing a line after a word has been entered
-    # "written" needed to know how far to go backwards
-    def clearLine(self, written):
-        pos = curses.getsyx()
-        for i in range(len(written))[::-1]:
-            self.scr.addstr(pos[0], i, " ")
-        self.scr.move(pos[0], 0)
-
-
-    # Function for writing to the application
-    # Give a string, color and newline is optional
-    def scrPrint(self, string, color=0, newline=False):
-
-        if color == 0:
-            self.scr.addstr(string)
-        else:
-            self.scr.addstr(string, curses.color_pair(color))
-        
-        if newline == True:
-            self.scr.addstr("\n")    
-
-
-    # Returns the ASCII of the a keypress
-    def getKey(self):
-        return self.scr.getch()
 
 
     # Fuction for testing a user on a given word
@@ -132,14 +93,14 @@ class Lesson():
 
         # Get a key press as an ASCII
         # While space is not pressed, ord(" ") == 32
-        key = self.getKey()
+        key = self.scr.getKey()
         while key != 32:
             ret, buffer = self.cam.captureFrame() # This is to clear the buffer
             ret, frame = self.cam.captureFrame()  # This frame is potentially saved
 
             # Condition for backspace
             if key == 127 and len(written) > 0:
-                self.backspace()  
+                self.scr.backspace()  
                 written = written[:-1]
 
             # Accept keys between "a" and "z"
@@ -153,18 +114,18 @@ class Lesson():
                     # Save an image to a file made up of the word and letter number
                     self.cam.saveFrame(frame, "{}{}.jpg".format(word, len(written) + 1))
                     user.setCorrect(key, "{}{}.jpg".format(word, len(written) + 1))
-                    self.scrPrint(key, 1) # 1 is set for Green, correct text
+                    self.scr.scrPrint(key, 1) # 1 is set for Green, correct text
                     user.setScore()
                     written.append(True)
                 
                 else:
-                    self.scrPrint(key, 2) # 2 is set for Red, incorrect text
+                    self.scr.scrPrint(key, 2) # 2 is set for Red, incorrect text
                     user.setMistake(key)
                     user.setMiss()
                     written.append(False)
             
             # Accept next keystroke before restarting loop
-            key = self.getKey()
+            key = self.scr.getKey()
 
         return written
 

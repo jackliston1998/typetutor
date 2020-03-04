@@ -1,4 +1,5 @@
-import cv2, math
+import cv2, math, hough
+
 class Keyboard:
     def __init__(self):
         self.key_positions = {
@@ -73,7 +74,7 @@ class Keyboard:
 # lst correct is a list of tuples with the correct finger and the name of the image
         correct = 0
         for image in lst_correct:
-            finger_choords = self.getFingerChoords(image[1])
+            finger_choords = hough.identifyFingers(image[1])
             if self.key_finger[image[0]][0] == "l":
                 if self.closest_point(image[0], finger_choords[0]):
                     correct += 1
@@ -99,6 +100,3 @@ class Keyboard:
             i += 1
         return str(min_dis[0]) == self.key_finger[key][-1]
 
-
-    def getFingerChoords(self,x):
-        return [[(558, 194, 26), (468, 232, 24), (466, 232, 23), (388, 200, 16)],[(578, 172, 23), (508, 178, 29), (410, 190, 22), (326, 202, 17)]]

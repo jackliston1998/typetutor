@@ -10,13 +10,13 @@ def identifyFingers(filename, testing=False):
     copy = cv2.cvtColor(copy, cv2.COLOR_BGR2GRAY) # Make the copy greyscale
     copy = cv2.medianBlur(copy, 15)
 
-    confident = detectCircles(copy)
+    confident = detectCircles(copy, 200, 20)
     left = [(x, y, r) for (x, y, r) in confident if x >= 320]
     right = [(x, y, r) for (x, y, r) in confident if x < 320]
     
     if len(left) < 4 or len(right) < 4:
         
-        loose = detectCircles(copy, 100, 15)
+        loose = detectCircles(copy, 80, 15)
         
         if len(left) < 4:
             leftLoose = [(x, y, r) for (x, y, r) in loose if x >= 320]
@@ -36,7 +36,7 @@ def identifyFingers(filename, testing=False):
         return drawHough(img, left, right, confident, loose)
 
 
-def detectCircles(img, edgeThres=180, circleThres=20):
+def detectCircles(img, edgeThres, circleThres):
     # Used to see result of Canny algorithm
     # hough.Circle uses a given number as the higher threshold, and divides by 2 for the lower
     # ----------------------------------------------------------------------------------------

@@ -63,6 +63,6 @@ if __name__ == "__main__":
     else:
         id = 0
     cam = Camera(id)
-    cam.showDisplay("Keyboard")
+    cam.showDisplay()
     cam.close()
 

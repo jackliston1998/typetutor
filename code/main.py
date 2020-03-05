@@ -9,10 +9,16 @@ if len(sys.argv) > 1:
     camId = int(sys.argv[1])
 else:
     camId = 0
-
-camera=Camera(camId)
-camera.showDisplay()
+try:
+    camera=Camera(camId)
+    camera.showDisplay()
+except:
+    print("\nThere is an issue with camera with ID {}.".format(camId))
+    print("Please fix the error or use a different camera.")
+    sys.exit()
 # creates a new screen object
+
+
 screen = Screen()
 # creates a new env
 les = Lesson(screen, camera)

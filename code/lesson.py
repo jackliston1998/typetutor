@@ -30,7 +30,7 @@ class Lesson():
         self.targetWords = random.sample(self.words, 15)
 
         # Display message and first sets of words
-        self.scr.scrPrint("-- Type the words below, starting from the top right word --", newline=True)
+        self.scr.scrPrint("-- Type the words below, starting from the top left word --", newline=True)
         self.displayWords(self.targetWords[0:wpl], True)
         self.displayWords(self.targetWords[wpl:(2 * wpl)], False)
         self.scr.scrPrint("Press \"Space\" to begin")
@@ -94,9 +94,8 @@ class Lesson():
                 self.scr.backspace()  
                 written = written[:-1]
 
-            # Accept keys between "a" and "z"
-            # Ords 97 to 122
-            elif 97 <= key <= 122:
+            # Accept keys between "a" and "z" or "A" to "Z"
+            elif (97 <= key <= 122) or (65 <= key <= 90):
                 key = chr(key) # Convert ASCII to string
             
                 # Check if typed character is correct (to the given string)

@@ -22,7 +22,7 @@ def identifyFingers(filename, testing=False):
             leftLoose = [(x, y, r) for (x, y, r) in loose if x >= 320]
             left = fillFingers(left, leftLoose, 640, 320)
         
-        else:
+        if len(right) < 4:
             rightLoose = [(x, y, r) for (x, y, r) in loose if x < 320]
             right = fillFingers(right, rightLoose, 320, 0)
     

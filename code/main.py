@@ -11,7 +11,7 @@ else:
     camId = 0
 
 camera=Camera(camId)
-camera.showDisplay("Keyboard")
+camera.showDisplay()
 # creates a new screen object
 screen = Screen()
 # creates a new env
@@ -23,8 +23,10 @@ while key != 113:
     
     if key == 114:
         camera.showDisplay() 
+        screen.scrPrint("Camera re-align fineshed", newline=True)
 
-    if key == 112:
+
+    elif key == 112:
         # starts the env
         les.start()
         # creates a user a/c to store the mistakes
@@ -41,12 +43,13 @@ while key != 113:
         [screen.scrPrint(n, newline=True) for n in user.getMistake()]
         [screen.scrPrint(n, newline=True) for n in user.getData(end_time)]
     
+
     elif key == 104:
         files = os.listdir()
         if len(files) == 0:
             screen.scrPrint("No images found. Complete a typing test", newline=True)
         else:
-            screen.scrPrint("When in OpenCV screen, press any key to see the next image.\nPress q to quit.\n\nPress any key to open OpenCV screen")
+            screen.scrPrint("When in OpenCV screen, press any key to see the next image.\nPress q to quit.\n\nPress any key to open OpenCV screen\n")
             screen.getKey()
             for filename in files:
                 img = hough.identifyFingers(filename, testing=True)
@@ -55,6 +58,9 @@ while key != 113:
                 if key == 113:
                     break
             screen.clear()
+            screen.scrPrint("Hough demo finished", newline=True)
+    
+    
     screen.continuePrompt()
     screen.clear()
     screen.showOption()

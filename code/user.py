@@ -7,7 +7,6 @@ class User():
         self.miss = 0
         self.mistake = {}
         self.correct = []
-        self.keyb = Keyboard()
     
     def setCorrect(self, letter, image_name):
     # Used to store a record of all correct key presses and their associated filenames
@@ -64,11 +63,11 @@ class User():
         return wrong
 
     # gets the data stored by the users and returns it to user
-    def getData(self, time):
+    def getData(self, time, keyb):
         correct_no = "{} correct key presses".format(self.getScore())
         incorrect_no =  "{} incorrect key presses".format(self.getMiss())
         wpm = "{:.2f} words per minute".format(int(((self.getScore() / time)*60)/5))
-        finger_accuracy = "Finger accuracy: {:.2f}".format(self.keyb.getCorrectFingers(self.correct))
+        finger_accuracy = "Finger accuracy: {}".format(keyb.getCorrectFingers(self.correct))
         if self.getScore() == 0 :
             accuracy = "accuracy = 0.00%"
         else:

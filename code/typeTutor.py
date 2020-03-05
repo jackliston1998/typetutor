@@ -2,16 +2,17 @@ from user import User
 from lesson import Lesson
 from screen import Screen
 from camera import Camera
+from keyboard import Keyboard
 import time, sys, hough, os
 
-
+keyb = Keyboard()
 if len(sys.argv) > 1:
     camId = int(sys.argv[1])
 else:
     camId = 0
 try:
     camera=Camera(camId)
-    camera.showDisplay()
+    camera.showDisplay(keyb)
 except:
     print("\nThere is an issue with camera with ID {}.".format(camId))
     print("Please fix the error or use a different camera.")
@@ -28,9 +29,9 @@ while key != 113:
     screen.clear()
     
     if key == 114:
-        camera.showDisplay() 
-        screen.scrPrint("Camera re-align fineshed", newline=True)
-
+        camera.showDisplay(keyb) 
+        screen.scrPrint("Camera re-align finished", newline=True)
+        screen.continuePrompt()
 
     elif key == 112:
         # starts the env
@@ -47,8 +48,12 @@ while key != 113:
 
         # returns the user data
         [screen.scrPrint(n, newline=True) for n in user.getMistake()]
-        [screen.scrPrint(n, newline=True) for n in user.getData(end_time)]
-    
+        [screen.scrPrint(n, newline=True) for n in user.getData(end_time, keyb)]
+
+        screen.scrPrint("Press 'c' to continue")
+        while screen.getKey() != 99:
+            pass
+                 
 
     elif key == 104:
         files = os.listdir()
@@ -67,7 +72,7 @@ while key != 113:
             screen.clear()
             screen.scrPrint("Hough demo finished", newline=True)
 
-    screen.continuePrompt()
+        screen.continuePrompt()
     screen.clear()
     screen.showOption()
     key = screen.getKey()

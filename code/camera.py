@@ -36,8 +36,7 @@ class Camera():
 
     # Shows a live capture, name is for the title of the window
     # Stop by pressing "q", this condition will change (when keyboard is detected)
-    def showDisplay(self):
-        keyb = Keyboard()
+    def showDisplay(self, keyb):
         # cv2.waitKey accepts a key press for a period of given time (in ms)
         # The key press is converted to ord, ord("q") == 113
         while cv2.waitKey(1) != 113:
@@ -45,10 +44,10 @@ class Camera():
             # Capture a frame, then display with imshow
             ret, frame = self.captureFrame()
             keyb.setKeyPoints(frame)
-            self.showFrame(frame, "Align Keybaord - Press \"Q\" to quit")
-                
+            self.showFrame(frame, "Align Keyboard - Press \"q\" to quit")
+        
         # Remove the window when finsihed
-        cv2.destroyWindow("Align Keybaord - Press \"Q\" to quit")
+        cv2.destroyWindow("Align Keyboard - Press \"q\" to quit")
 
 
     # Run when Camera is completely finished, release the Capture object
@@ -63,6 +62,6 @@ if __name__ == "__main__":
     else:
         id = 0
     cam = Camera(id)
-    cam.showDisplay()
+    cam.showDisplay("Keyboard")
     cam.close()
 

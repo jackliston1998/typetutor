@@ -90,10 +90,14 @@ class Keyboard:
             finger_choords = hough.identifyFingers(image[1])
             # This checks the first index frm the associated value from key_finger dic and checks which hand was used. Then it chooses the appropriate array in the tuple.
             if self.key_finger[image[0]][0] == "l":
-                if self.closest_point(image[0], finger_choords[0]):
+                if len(finger_choords[0]) != 4:
+                    pass
+                elif self.closest_point(image[0], finger_choords[0]):
                     correct += 1
             else:
-                if self.closest_point(image[0], finger_choords[1]):
+                if len(finger_choords[1]) != 4:
+                    pass
+                elif self.closest_point(image[0], finger_choords[1]):
                     correct += 1
         return (correct/len(lst_correct)) * 100
 

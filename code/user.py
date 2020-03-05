@@ -67,11 +67,11 @@ class User():
     def getData(self, time):
         correct_no = "{} correct key presses".format(self.getScore())
         incorrect_no =  "{} incorrect key presses".format(self.getMiss())
-        wpm = "{} words per minute".format(int(((self.getScore() / time)*60)/5))
+        wpm = "{:.2f} words per minute".format(int(((self.getScore() / time)*60)/5))
         finger_accuracy = "Finger accuracy: {}".format(self.keyb.getCorrectFingers(self.correct))
         if self.getScore() == 0 :
             accuracy = "accuracy = 0.00%"
         else:
-            accuracy = "accuracy = {}".format(self.getScore()/(self.getMiss() + self.getScore())*100)
+            accuracy = "accuracy = {:.2f}".format(self.getScore()/(self.getMiss() + self.getScore())*100)
         return [correct_no, incorrect_no, wpm, accuracy, finger_accuracy]
 

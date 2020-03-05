@@ -1,6 +1,7 @@
 from user import User
 from lesson import Lesson
 from screen import Screen
+from camera import Camera
 import time, sys, hough, os
 
 
@@ -9,15 +10,20 @@ if len(sys.argv) > 1:
 else:
     camId = 0
 
+camera=Camera(camId)
+camera.showDisplay("Keyboard")
 # creates a new screen object
 screen = Screen()
 # creates a new env
-les = Lesson(screen, camId)
+les = Lesson(screen, camera)
 screen.showOption()
 key = screen.getKey()
 while key != 113:
     screen.clear()
     
+    if key == 114:
+        camera.showDisplay() 
+
     if key == 112:
         # starts the env
         les.start()
@@ -34,23 +40,22 @@ while key != 113:
         # returns the user data
         [screen.scrPrint(n, newline=True) for n in user.getMistake()]
         [screen.scrPrint(n, newline=True) for n in user.getData(end_time)]
-        screen.continuePrompt()
     
     elif key == 104:
         files = os.listdir()
         if len(files) == 0:
             screen.scrPrint("No images found. Complete a typing test", newline=True)
-            screen.continuePrompt()
         else:
+            screen.scrPrint("When in OpenCV screen, press any key to see the next image.\nPress q to quit.\n\nPress any key to open OpenCV screen")
+            screen.getKey()
             for filename in files:
                 img = hough.identifyFingers(filename, testing=True)
                 key = hough.show(img, filename) 
                 
                 if key == 113:
                     break
-
-            screen.getKey()
-
+            screen.clear()
+    screen.continuePrompt()
     screen.clear()
     screen.showOption()
     key = screen.getKey()

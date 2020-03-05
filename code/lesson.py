@@ -1,5 +1,4 @@
 import random, os
-from camera import Camera
 # Class to represent a lesson
 class Lesson():
 
@@ -8,10 +7,9 @@ class Lesson():
     words = None
 
     # Initailize the curses application and setup Camera
-    def __init__(self, screen, id=0):
-        self.cam = Camera(id)
+    def __init__(self, screen, camera):
+        self.cam = camera
         self.scr = screen
-        self.cam.showDisplay("Keyboard")
         # If words have not been read, then read them
         if self.words == None:
             self.getWords()

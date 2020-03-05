@@ -99,8 +99,10 @@ class Keyboard:
                     pass
                 elif self.closest_point(image[0], finger_choords[1]):
                     correct += 1
-        return (correct/len(lst_correct)) * 100
-
+        if correct != 0:
+            return (correct/len(lst_correct)) * 100
+        else:
+            return 0
          
     def closest_point(self, key, choords):
     # This function calculates which finger was used to hit the key by checking which index(i.e finger) was closest to the key that was just pressed

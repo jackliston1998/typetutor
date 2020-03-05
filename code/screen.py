@@ -50,7 +50,7 @@ class Screen():
         self.scr.clear()
 
     def showOption(self):
-        prompt = "Press 'p' to play the game\nPress 'h' to demo images with hough circles\nPress 'q' to quit the game\n"
+        prompt = "Press 'p' to play the game\nPress 'h' to demo images with hough circles\nPress 'r' to re-align camera\nPress 'q' to quit the game\n"
         self.scrPrint(prompt)
     
     def continuePrompt(self):

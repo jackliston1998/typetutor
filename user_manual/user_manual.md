@@ -87,7 +87,7 @@ The program will cycle through the images, showing them to you one at a time. In
 ![](https://i.imgur.com/QIFfFgt.png)
 
 __Circle colour key:__
-- Green circles represent what the program is confident is a circle
+- Green circles represent what the program is confident is a finger
 - Red circles are potential fingers that have not been chosen to be fingers
 - Blue circles represent potential fingers that have been chosen to be fingers
 

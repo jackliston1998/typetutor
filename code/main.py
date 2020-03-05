@@ -5,7 +5,7 @@ import time, sys, hough, os
 
 
 if len(sys.argv) > 1:
-    camId = sys.argv[1]
+    camId = int(sys.argv[1])
 else:
     camId = 0
 

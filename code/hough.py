@@ -17,30 +17,29 @@ def identifyFingers(filename, testing=False):
     if len(left) < 4 or len(right) < 4:
         
         loose = detectCircles(copy, 100, 15)
-        if len(loose) != 0:
-
-            while len(left) < 4:
-                leftX = [640, 320] + [x for (x, y, z) in left]
-                leftY = [y for (x, y, r) in left]
-                midX, avgY = getHueristicValues(leftX, leftY)
-                left.append(min([cir for cir in loose if cir not in left], key=lambda cir: heuristic(cir, (midX, avgY))))
         
-            while len(right) < 4:
-                rightX = [320, 0] + [x for (x, y, z) in right]
-                rightY = [y for (x, y, r) in right]
-                midX, avgY = getHueristicValues(rightX, rightY)
-                right.append(min([cir for cir in loose if cir not in right], key=lambda cir: heuristic(cir, (midX, avgY))))
+        if len(left) < 4:
+            leftLoose = [(x, y, r) for (x, y, r) in loose if x >= 320]
+            left = fillFingers(left, leftLoose, 640, 320)
+        
+        else:
+            rightLoose = [(x, y, r) for (x, y, r) in loose if x < 320]
+            right = fillFingers(right, rightLoose, 320, 0)
+    
+    elif testing == True:
+        loose = detectCircles(copy, 100, 15)
+
 
     if testing == False:
         return sorted(left, reverse=True), sorted(right, reverse=True)
     else:
-        loose = detectCircles(copy, 100, 15)
         return drawHough(img, left, right, confident, loose)
 
 
 def detectCircles(img, edgeThres=180, circleThres=20):
     # Used to see result of Canny algorithm
     # hough.Circle uses a given number as the higher threshold, and divides by 2 for the lower
+    # ----------------------------------------------------------------------------------------
     # canny = cv2.Canny(img, edgeThres/2, edgeThres)
     # show(canny, "edge")
     
@@ -54,18 +53,29 @@ def detectCircles(img, edgeThres=180, circleThres=20):
     param1 is edge detection threshold. Higher value for more defined edges. See cv.Canny
     param2 is circle accumulator threshold. Lower values accept more circles
     """  
-    # This should be the "conservative" search
-    # minDist = 25, param1 = 180, param = 20
+    
     circles = cv2.HoughCircles(img, cv2.HOUGH_GRADIENT, dp=1, minDist=25, param1=edgeThres, param2=circleThres, minRadius=0, maxRadius=40)
     
     # HoughCircles will return an array (numpy.nparray) of found circles or "None" if no circles found
     # "circles != None" cannot be done as np.nparray had no truth values associated
     if type(circles) != type(None):
         np.uint16(np.around(circles)) # Round co-ords and radiuii to round numbers
-        return [(x, y, z) for (x, y, z) in circles[0] if 150 <= y <= 260]
-    
+        return [(x, y, z) for (x, y, z) in circles[0] if 150 <= y <= 260] 
     else:
         return []
+
+
+def fillFingers(hand, circles, start, end):
+    while len(hand) < 4 and len(circles) > 0:
+        handX = [start, end] + [x for (x, y, z) in hand]
+        handY = [y for (x, y, r) in hand]
+        midX, avgY = getHueristicValues(handX, handY)
+        circles = sorted([cir for cir in circles], key=lambda cir: (heuristic(cir, (midX, avgY))))
+        best, circles = circles[0], circles[1:]
+        hand.append(best)
+    
+    return hand
+
 
 def getHueristicValues(handX, handY):
     handX = sorted(handX, reverse=True)

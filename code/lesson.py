@@ -1,6 +1,4 @@
-import operator, curses, random, sys, os
-from keyboard import Keyboard
-from user import User
+import random, os
 from camera import Camera
 # Class to represent a lesson
 class Lesson():
@@ -26,42 +24,41 @@ class Lesson():
     
     # selects 30 random words and and passes them to the writeWord function
     # ends the typing enviornment 
-    def start(self):
+    def start(self, wpl=3):
         for file in os.listdir():
             os.remove(file)
         
         # Select a number of words from the words set, no repeating wrods
         self.targetWords = random.sample(self.words, 3)
 
-
-
         # Display message and first sets of words
-        self.scr.scrPrint("-- Type the words below. Begin by pressing \"Enter\" --", newline=True)
-        self.displayWords(self.targetWords[0:3], True)
-        self.displayWords(self.targetWords[3:6], False)
+        self.scr.scrPrint("-- Type the words below, starting from the top right word --", newline=True)
+        self.displayWords(self.targetWords[0:wpl], True)
+        self.displayWords(self.targetWords[wpl:(2 * wpl)], False)
+        self.scr.scrPrint("Press \"Space\" to begin")
 
         # Wait til user presses enters, ord("Enters") == 32
         while self.scr.getKey() != 32:
             pass
+        
+        self.scr.clearLine("Press \"Space\" to begin")
 
         
-    def writeWords(self, user):
+    def writeWords(self, user, wpl=3):
         words = self.targetWords
 
         # Use i instead of interating over list to change the words
         for i in range(len(words)):
 
-            if i < len(words) and i % 3 == 0:
-                self.displayWords(words[i : i+3], True)
+            if i < len(words) and i % wpl == 0:
+                self.displayWords(words[i : i+wpl], True)
 
                 if i + 2 < len(words):
-                    self.displayWords(words[i+3 : i+6], False)
+                    self.displayWords(words[i+wpl : i+(2 * wpl)], False)
 
             written = self.writeWord(words[i], user)
             # "written" needed to know how far to go back
             self.scr.clearLine(written)
-
-        # Close self.scr.when finished
 
 
     # Get words from a list and place in a set (after striping)
@@ -82,8 +79,6 @@ class Lesson():
             self.scr.scrPrint(" ".join(words), 3, newline=True) # 3 is to write in blue
 
 
-
-
     # Fuction for testing a user on a given word
     def writeWord(self, word, user):
         # Bool list used to track if user's characters are correct
@@ -93,7 +88,7 @@ class Lesson():
         # While space is not pressed, ord(" ") == 32
         key = self.scr.getKey()
         while key != 32:
-            ret, buffer = self.cam.captureFrame() # This is to clear the buffer
+            self.cam.captureFrame() # This is to clear the buffer
             ret, frame = self.cam.captureFrame()  # This frame is potentially saved
 
             # Condition for backspace
@@ -126,8 +121,3 @@ class Lesson():
             key = self.scr.getKey()
 
         return written
-
-
-    # Close the application
-    def scrClose(self):
-        curses.endwin()

@@ -59,7 +59,7 @@ class User():
         wpm = "{} words per minute".format(int(((self.getScore() / time)*60)/5))
         accuracy = "accuracy = {}".format(self.getScore()/(self.getMiss() + self.getScore())*100)
         finger_accuracy = "Finger accuracy: {}".format(self.keyb.getCorrectFingers(self.correct))
-        return [correct_no, incorrect_no, wpm, accuracy, finger_accuracy, "Press 'r' to restart the game"]
+        return [correct_no, incorrect_no, wpm, accuracy, finger_accuracy]
 
 
 

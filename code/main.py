@@ -51,16 +51,16 @@ while key != 113:
         else:
             screen.scrPrint("When in OpenCV screen, press any key to see the next image.\nPress q to quit.\n\nPress any key to open OpenCV screen\n")
             screen.getKey()
-            for filename in files:
+            for filename in sorted(files):
                 img = hough.identifyFingers(filename, testing=True)
                 key = hough.show(img, filename) 
                 
                 if key == 113:
                     break
+
             screen.clear()
             screen.scrPrint("Hough demo finished", newline=True)
-    
-    
+
     screen.continuePrompt()
     screen.clear()
     screen.showOption()

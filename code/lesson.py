@@ -27,7 +27,7 @@ class Lesson():
             os.remove(file)
         
         # Select a number of words from the words set, no repeating wrods
-        self.targetWords = random.sample(self.words, 3)
+        self.targetWords = random.sample(self.words, 15)
 
         # Display message and first sets of words
         self.scr.scrPrint("-- Type the words below, starting from the top right word --", newline=True)

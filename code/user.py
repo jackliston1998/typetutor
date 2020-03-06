@@ -67,7 +67,7 @@ class User():
         correct_no = "{} correct key presses".format(self.getScore())
         incorrect_no =  "{} incorrect key presses".format(self.getMiss())
         wpm = "{:.2f} words per minute".format(int(((self.getScore() / time)*60)/5))
-        finger_accuracy = "Finger accuracy: {}".format(keyb.getCorrectFingers(self.correct))
+        finger_accuracy = "Finger accuracy: {:.2f}".format(keyb.getCorrectFingers(self.correct))
         if self.getScore() == 0 :
             accuracy = "accuracy = 0.00%"
         else:

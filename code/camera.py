@@ -16,27 +16,30 @@ class Camera():
         self.capture = cv2.VideoCapture(id)
         self.capture.set(cv2.CAP_PROP_BUFFERSIZE, 1) # Change buffer size to one photo
 
-    # Captures current frame, returns a tuple of length 2
-    # tuple[0] is a boolean on if capture was successful
-    # tuple[1] is the frame itself
     def captureFrame(self):
+    # Captures current frame, returns a tuple of length 2
+    # Takes in a camera object
+    # Returns a tuple of tuple[0] is a boolean on if capture was successful and tuple[1] is the frame itself(numpy array)
         return self.capture.read()
 
 
-    # Used to save the a frame
-    # Directory determined by os, change by using os module
     def saveFrame(self, frame, filename):
+    # Used to save the a frame, directory determined by os, change by using os module
+    # Takes in a camera object, the frame(numpy array) and a string that is the name that the file will be called
         # ret, frame = self.captureFrame()
         cv2.imwrite(filename, frame) 
 
-    # Used to dispaly a frame to the screen
     def showFrame(self, frame, name="Camera"):
+    # Used to dispaly a frame to the screen
+    # Takes in the camera object, the frame you would like to be show aswell as the name you would like to show on the border of the image display 
+    # Used to dispaly a frame to the screen
         cv2.imshow(name, frame)
 
 
-    # Shows a live capture, name is for the title of the window
-    # Stop by pressing "q", this condition will change (when keyboard is detected)
     def showDisplay(self, keyb):
+    # Shows a live capture, name is for the title of the window
+    # Takes in the camera object aswell as a keyboard object so the alignment aid can be output
+    # A live feed of the webcam with the alignment aid overlayed
         # cv2.waitKey accepts a key press for a period of given time (in ms)
         # The key press is converted to ord, ord("q") == 113
         while cv2.waitKey(1) != 113:

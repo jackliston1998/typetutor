@@ -93,3 +93,10 @@ class Keyboard:
             i += 1
         return str(min_dis[0]) == self.getKeyFinger(key)[-1]
 
+if __name__ == "__main__":
+    keyb = Keyboard() 
+    if keyb.getKeyFinger('k') == 'r1':
+        print(True)
+    if keyb.getKeyPoint('k') == (165,265):
+        print(True)
+    print(keyb.closest_point('k',[(220,265),(165,265),(115,265),(502,236)]))

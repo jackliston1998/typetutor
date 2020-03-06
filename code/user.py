@@ -14,7 +14,6 @@ class User():
     # Stores them as a tuple in the correct array which will be iterated over with our hough script to ensure correct finger used
         self.correct.append((letter, image_name))
     
-    #returns the list of tuples. The tuples have a the k pressed and the image at the moment it is pressed
     def getCorrect(self):
     # This fucntion is used to get the users correct answers
     # Takes in the User object
@@ -40,30 +39,40 @@ class User():
         self.miss += 1 
     
     def getMiss(self):
-    # Returns
+    # Returns the int that has been storing the amount of incorrect key presses made by the user
+    # Takes in the User object
+    # Returns the amount of incorrect keys pressed
         return self.miss
     
-    # adds the key that has been input incorrectly to a dictionary
     def setMistake(self,ltr):
+    # Adds the key that has been input incorrectly to a dictionary
+    # Takes in a user object and a string representing the letter that has not been pressed correctly
+    # Increments the values assigned to that key in the mistake dictionary
         if ltr in self.mistake:
             self.mistake[ltr] += 1
         else:
             self.mistake[ltr] = 1
 
-    # prints each value that was incorrect typed aswell as how many times it was incorrectly given
     def getMistake(self):
+    # Prints each value that was incorrect typed aswell as how many times it was incorrectly given
+    # Takes in the user object
+    # Outputs a list of the top three errors made, less then 3 errors it will output all errors.
         sorted_x = sorted(self.mistake.items(), key=operator.itemgetter(1))
         wrong = []
         if len(sorted_x) < 3:
             for item in sorted_x:
+                # Formats the text to illustrate to the user what the value means
                 wrong.append("{} wrong {} time(s)".format(item[0], item[1]))
         else:
             for i in range(3):
+                # Formats the text to illustrate to the user what the value means
                 wrong.append("{} wrong {} time(s)".format(sorted_x[i][0], sorted_x[i][1]))
         return wrong
 
-    # gets the data stored by the users and returns it to user
     def getData(self, time, keyb):
+    # Gets the data stored by the users and returns it to user
+    # Takes in the user object aswell as an int refering to how long they were typing and also a keyboard object
+    # Output an array containing strings for all of the user data that is return after the game
         correct_no = "{} correct key presses".format(self.getScore())
         incorrect_no =  "{} incorrect key presses".format(self.getMiss())
         wpm = "{:.2f} words per minute".format(int(((self.getScore() / time)*60)/5))
@@ -74,3 +83,19 @@ class User():
             accuracy = "accuracy = {:.2f}".format(self.getScore()/(self.getMiss() + self.getScore())*100)
         return [correct_no, incorrect_no, wpm, accuracy, finger_accuracy]
 
+if __name__ == "__main__":
+    # Tests when you run python3 user.py
+    user = User()
+    keyb = Keyboard()
+    user.setCorrect('k', 'key1.jpg')
+    if user.getCorrect() == [('k', 'key1.jpg')]:
+        print(True)
+    user.setScore()
+    if user.getScore() == 1:
+        print(True)
+    user.setMiss()
+    if user.getMiss() == 1:
+        print(True)
+    user.setMistake('k')
+    if user.getMistake() == ['k wrong 1 time(s)']:
+        print(True)

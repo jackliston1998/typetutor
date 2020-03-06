@@ -61,7 +61,8 @@ if __name__ == "__main__":
         id = int(sys.argv[1])
     else:
         id = 0
+    keyb = Keyboard()
     cam = Camera(id)
-    cam.showDisplay("Keyboard")
+    cam.showDisplay(keyb)
     cam.close()
 
